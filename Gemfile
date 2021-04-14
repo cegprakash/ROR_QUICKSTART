@@ -6,6 +6,8 @@ ruby '3.0.0'
 gem 'mysql2'
 gem 'rexml'
 gem 'kaminari'
+gem 'rack-cors', '~> 0.3.1'
+gem 'active_model_serializers'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails', branch: 'main'
 gem 'rails', '~> 6.1.3'

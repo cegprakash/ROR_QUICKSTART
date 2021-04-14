@@ -18,7 +18,8 @@ class UsersController < ApplicationController
 
     def list
         @users = User.page(params[:page_no]).per(5)
-        render 'users/list'
+        render json: @users, root: 'users', each_serializer: UserSerializer
+        # render 'users/list'
     end
 
 
