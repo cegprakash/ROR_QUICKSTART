@@ -18,10 +18,10 @@ class UsersController < ApplicationController
 
     def list
         @users = User.page(params[:page_no]).per(5)
-        render json: @users, root: 'users', each_serializer: UserSerializer
+        # render json: @users, root: 'users', each_serializer: UserSerializer, status: :ok
+        render json: { user: @users }, status: :ok
         # render 'users/list'
     end
-
 
     def delete
         User.delete(params[:user_id])
