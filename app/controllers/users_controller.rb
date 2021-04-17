@@ -26,7 +26,8 @@ class UsersController < ApplicationController
     def get_user
         user = User.find_by_id(params[:user_id])
         if user       
-            render json: { user: user }, status: :ok
+            all_comments = Comment.to_user(params[:user_id]).order("created_at DESC").page(1).per(5)
+            render json: { user: user, comments: all_comments }, status: :ok
         else
             render json: {}, status: :not_found
         end
