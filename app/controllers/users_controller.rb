@@ -23,6 +23,15 @@ class UsersController < ApplicationController
         # render 'users/list'
     end
 
+    def get_user
+        user = User.find_by_id(params[:user_id])
+        if user       
+            render json: { user: user }, status: :ok
+        else
+            render json: {}, status: :not_found
+        end
+    end
+
     def delete
         User.delete(params[:user_id])
         render json: {}, status: :no_content

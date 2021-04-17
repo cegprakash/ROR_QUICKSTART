@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_17_084707) do
+ActiveRecord::Schema.define(version: 2021_04_16_174249) do
+
+  create_table "comments", charset: "utf8", force: :cascade do |t|
+    t.bigint "from_user_id"
+    t.bigint "to_user_id"
+    t.string "comment"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["from_user_id"], name: "index_comments_on_from_user_id"
+    t.index ["to_user_id"], name: "index_comments_on_to_user_id"
+  end
 
   create_table "users", charset: "utf8", force: :cascade do |t|
     t.string "name"
@@ -18,4 +28,6 @@ ActiveRecord::Schema.define(version: 2021_03_17_084707) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "comments", "users", column: "from_user_id"
+  add_foreign_key "comments", "users", column: "to_user_id"
 end
