@@ -24,10 +24,15 @@ class UsersController < ApplicationController
     end
 
     def get_user
-        user = User.find_by_id(params[:user_id])
-        if user       
-            all_comments = Comment.to_user(params[:user_id]).order("created_at DESC").page(1).per(5)
-            render json: { user: user, comments: all_comments }, status: :ok
+        user = User.find_by_id(params[:user_id]).as_json
+        if user
+            all_comments = Comment.to_user(params[:user_id]).order("created_at DESC").page(1).per(5).as_json
+            user = user.merge({'comments'=> all_comments})
+            puts(user)
+
+            #user.comments = all_comments
+#            user.instance_variable_set(:@comments, all_comments)
+            render json: { user: user }, status: :ok
         else
             render json: {}, status: :not_found
         end
