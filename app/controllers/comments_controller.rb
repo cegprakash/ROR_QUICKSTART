@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
             :to_user_id => to_user_id,
             :comment => user['comment']['comment'],
         })
-        all_comments = Comment.from_user(user['comment']['from_user_id']).to_user(to_user_id).order("created_at DESC").page(1).per(5)
-        render json: { comment: all_comments }, status: :ok
+
+        render json: {}, status: :ok
     end
 end
