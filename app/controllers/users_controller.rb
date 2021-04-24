@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     end
 
     def get_user
-        user = User.includes({comments_received: :from_user}).where('users.id = %d' % [params[:user_id]])
+        user = User.includes({comments_received: :from_user}).where('users.id = %d' % [params[:user_id]]).order("comments.created_at DESC")
         #user = User.find_by_id(params[:user_id]).as_json
 
         if user.length
