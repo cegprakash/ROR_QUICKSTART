@@ -24,20 +24,16 @@ class UsersController < ApplicationController
     end
 
     def get_user
+        #user = User.find_by_id(params[:user_id]).as_json
+        puts('*********************')
+
         user = User.includes({comments_received: :from_user}).where('users.id = %d' % [params[:user_id]]).order("comments.created_at DESC")
         #user = User.find_by_id(params[:user_id]).as_json
-
+        
+        puts('query succeeded')
         if user.length
             #all_comments = Comment.where('to_user_id = %d' % [params[:user_id]]).eager_load(:from_user).order("comments.created_at DESC").page(1).per(5)
-            # puts(user[0].comments_received)
-            #user = user.merge({'comments_received'=> all_comments})
-
-            puts(user[0].comments_received[0].from_user.name)
-            data = user[0].as_json.merge({'comments_received'=> user[0].comments_received.as_json})
-            puts(data.as_json)
-
-            render json: user[0], status: :ok, serializer: UserSerializer, adapter: :json
-            #render json: { user: data }, status: :ok
+            render json: user[0], status: :ok, serializer: UserSerializer, adapter: :json, include: {comments_received: [:from_user]}            
         else
             render json: {}, status: :not_found
         end
