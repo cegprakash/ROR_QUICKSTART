@@ -24,15 +24,10 @@ class Api::V1::UsersController < ApplicationController
     end
 
     def show
-        #user = User.find_by_id(params[:user_id]).as_json
-        puts('*********************')
-
-        user = User.includes({comments_received: :from_user}).where('users.id = %d' % [params[:id]]).order("comments.created_at DESC")
-        #user = User.find_by_id(params[:user_id]).as_json
-        
-        puts('query succeeded')
+        # user = User.find_by_id(params[:user_id]).as_json
+        # all_comments = Comment.where('to_user_id = %d' % [params[:user_id]]).eager_load(:from_user).order("comments.created_at DESC").page(1).per(5)
+        user = User.includes({comments_received: :from_user}).where('users.id = %d' % [params[:id]]).order("comments.created_at DESC")        
         if user.length
-            #all_comments = Comment.where('to_user_id = %d' % [params[:user_id]]).eager_load(:from_user).order("comments.created_at DESC").page(1).per(5)
             render json: user[0], status: :ok, serializer: UserSerializer, adapter: :json, include: {comments_received: [:from_user]}            
         else
             render json: {}, status: :not_found
