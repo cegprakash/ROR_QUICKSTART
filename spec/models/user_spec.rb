@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'UserRoutes', type: :request do
   scenario 'User creation' do
     post "/api/v1/users", params: {:name => 'test user 888'}
+    #response.code.should eq "200"
     expect(response.code).to eq('200')
     response_body = JSON.parse(response.body)
 
@@ -12,7 +13,6 @@ RSpec.describe 'UserRoutes', type: :request do
     get "/api/v1/users/%d" % [user_id.to_i]
     expect(response.code).to eq('200')
     response_body = JSON.parse(response.body)
-    puts(response_body)
     expect(response_body['user']['id']).to eq(user_id)
     expect(response_body['user']['comments_received'].length).to eq(0)
   end
